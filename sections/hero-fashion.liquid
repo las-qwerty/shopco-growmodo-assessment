@@ -1,0 +1,747 @@
+{% comment %}
+  Hero Fashion v2
+  Production-ready Shopify OS 2.0 hero section with blocks.
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign bg_color = section.settings.background_color
+  assign container_width = section.settings.container_width
+  assign content_gap = section.settings.content_gap
+  assign vertical_align = section.settings.vertical_alignment
+  assign desktop_pt = section.settings.desktop_padding_top
+  assign desktop_pr = section.settings.desktop_padding_right
+  assign desktop_pb = section.settings.desktop_padding_bottom
+  assign desktop_pl = section.settings.desktop_padding_left
+  assign mobile_pt = section.settings.mobile_padding_top
+  assign mobile_pr = section.settings.mobile_padding_right
+  assign mobile_pb = section.settings.mobile_padding_bottom
+  assign mobile_pl = section.settings.mobile_padding_left
+  assign rounded = section.settings.rounded_container
+  assign has_animations = section.settings.animation_toggle
+-%}
+
+<section
+  class="hero-fashion hero-fashion--scheme-{{ color_scheme }}{% if has_animations %} hero-fashion--animate{% endif %}"
+  data-section-type="hero-fashion"
+  data-section-id="{{ section.id }}"
+>
+  <style>
+    #shopify-section-{{ section.id }} .hero-fashion {
+      background-color: {{ bg_color }};
+    }
+    #shopify-section-{{ section.id }} .hero-fashion__container {
+      max-width: {{ container_width }}px;
+      gap: {{ content_gap }}px;
+      padding: {{ mobile_pt }}px {{ mobile_pr }}px {{ mobile_pb }}px {{ mobile_pl }}px;
+      border-radius: {% if rounded %}{{ section.settings.rounded_radius }}px{% else %}0{% endif %};
+      {%- case vertical_align -%}
+        {%- when 'top' -%}align-items: start;
+        {%- when 'bottom' -%}align-items: end;
+        {%- else -%}align-items: center;
+      {%- endcase -%}
+    }
+    @media screen and (min-width: 990px) {
+      #shopify-section-{{ section.id }} .hero-fashion__container {
+        padding: {{ desktop_pt }}px {{ desktop_pr }}px {{ desktop_pb }}px {{ desktop_pl }}px;
+      }
+    }
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'heading' -%}
+          #HeroFashionBlock-{{ section.id }}-{{ block.id }} {
+            {%- if block.settings.color != blank -%}
+              color: {{ block.settings.color }};
+            {%- endif -%}
+            text-align: {{ block.settings.text_alignment }};
+            font-family: {% if block.settings.font_family == 'display' %}var(--shopco-font-display){% else %}var(--shopco-font-body){% endif %};
+            font-size: {{ block.settings.font_size_mobile }}rem;
+            font-weight: {{ block.settings.font_weight }};
+            line-height: {{ block.settings.line_height }};
+            {%- if block.settings.letter_spacing != 0 -%}
+              letter-spacing: {{ block.settings.letter_spacing }}em;
+            {%- endif -%}
+            {%- if block.settings.max_width > 0 -%}
+              max-width: {{ block.settings.max_width }}px;
+            {%- endif -%}
+          }
+          @media screen and (min-width: 990px) {
+            #HeroFashionBlock-{{ section.id }}-{{ block.id }} {
+              font-size: {{ block.settings.font_size_desktop }}rem;
+            }
+          }
+        {%- when 'richtext' -%}
+          #HeroFashionBlock-{{ section.id }}-{{ block.id }} {
+            {%- if block.settings.color != blank -%}
+              color: {{ block.settings.color }};
+            {%- endif -%}
+            {%- if block.settings.width > 0 -%}
+              max-width: {{ block.settings.width }}px;
+            {%- endif -%}
+          }
+        {%- when 'button' -%}
+          #HeroFashionBlock-{{ section.id }}-{{ block.id }} .hero-fashion__button {
+            background-color: {{ block.settings.background_color }};
+            color: {{ block.settings.text_color }};
+            border-color: {{ block.settings.border_color }};
+            border-radius: {{ block.settings.border_radius }}px;
+            {%- if block.settings.width == 'full' -%}
+              width: 100%;
+            {%- else -%}
+              width: auto;
+            {%- endif -%}
+          }
+          #HeroFashionBlock-{{ section.id }}-{{ block.id }} .hero-fashion__button:hover {
+            background-color: {{ block.settings.background_color | color_darken: 15 }};
+          }
+        {%- when 'statistic' -%}
+          #HeroFashionBlock-{{ section.id }}-{{ block.id }} .hero-fashion__stat-number {
+            color: {{ block.settings.number_color }};
+          }
+          #HeroFashionBlock-{{ section.id }}-{{ block.id }} .hero-fashion__stat-label {
+            color: {{ block.settings.label_color }};
+          }
+        {%- when 'decoration' -%}
+          #HeroFashionDeco-{{ section.id }}-{{ block.id }} {
+            width: {{ block.settings.width_mobile }}px;
+            left: {{ block.settings.position_x }}%;
+            top: {{ block.settings.position_y }}%;
+            transform: translate(-50%, -50%) rotate({{ block.settings.rotation }}deg);
+            opacity: {{ block.settings.opacity }};
+            {%- if block.settings.hide_on_mobile -%}
+              display: none;
+            {%- endif -%}
+          }
+          @media screen and (min-width: 990px) {
+            #HeroFashionDeco-{{ section.id }}-{{ block.id }} {
+              width: {{ block.settings.width_desktop }}px;
+              display: block;
+            }
+          }
+      {%- endcase -%}
+    {%- endfor -%}
+  </style>
+
+  <div class="hero-fashion__container">
+    <div class="hero-fashion__content">
+      {%- assign in_stats = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'statistic' -%}
+          {%- unless in_stats -%}
+            {%- assign in_stats = true -%}
+            <ul class="hero-fashion__stats" {{ block.shopify_attributes }}>
+          {%- endunless -%}
+          <li class="hero-fashion__stat" id="HeroFashionBlock-{{ section.id }}-{{ block.id }}">
+            <span class="hero-fashion__stat-number">{{ block.settings.number | escape }}</span>
+            <span class="hero-fashion__stat-label">{{ block.settings.label | escape }}</span>
+          </li>
+          {%- if forloop.last -%}
+            </ul>
+          {%- else -%}
+            {%- assign next = section.blocks[forloop.index] -%}
+            {%- if next.type != 'statistic' -%}
+              </ul>
+              {%- assign in_stats = false -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- if in_stats -%}</ul>{%- assign in_stats = false -%}{%- endif -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              {%- if block.settings.text != blank -%}
+                <div class="hero-fashion__block hero-fashion__heading-wrapper" id="HeroFashionBlock-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+                  <{{ block.settings.html_tag }} class="hero-fashion__heading">
+                    {{ block.settings.text | newline_to_br }}
+                  </{{ block.settings.html_tag }}>
+                </div>
+              {%- endif -%}
+            {%- when 'richtext' -%}
+              {%- if block.settings.content != blank -%}
+                <div class="hero-fashion__block hero-fashion__text" id="HeroFashionBlock-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+                  {{ block.settings.content }}
+                </div>
+              {%- endif -%}
+            {%- when 'button' -%}
+              {%- if block.settings.label != blank and block.settings.url != blank -%}
+                <div class="hero-fashion__block hero-fashion__button-wrapper" id="HeroFashionBlock-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+                  <a
+                    href="{{ block.settings.url }}"
+                    class="hero-fashion__button hero-fashion__button--{{ block.settings.style }}"
+                    aria-label="{{ block.settings.label | escape }}"
+                  >
+                    {{ block.settings.label | escape }}
+                  </a>
+                </div>
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if in_stats -%}</ul>{%- endif -%}
+    </div>
+
+    <div class="hero-fashion__media">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'hero_image' -%}
+            <div class="hero-fashion__image-wrapper" id="HeroFashionBlock-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                <picture>
+                  {%- if block.settings.image_mobile != blank -%}
+                    <source
+                      media="(max-width: 989px)"
+                      srcset="{{ block.settings.image_mobile | image_url: width: 600 }} 1x, {{ block.settings.image_mobile | image_url: width: 1200 }} 2x"
+                    >
+                  {%- endif -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 1500
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '375, 550, 750, 1100, 1500',
+                      sizes: '(max-width: 989px) 100vw, 55vw',
+                      alt: block.settings.alt_text | default: block.settings.image.alt,
+                      class: 'hero-fashion__image hero-fashion__image--' | append: block.settings.object_fit
+                  }}
+                </picture>
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'hero-fashion__image' }}
+              {%- endif -%}
+            </div>
+          {%- when 'decoration' -%}
+            <div class="hero-fashion__decoration" id="HeroFashionDeco-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 400
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: block.settings.image.alt | default: 'Decoration',
+                    class: 'hero-fashion__decoration-img'
+                }}
+              {%- else -%}
+                <span class="hero-fashion__decoration-placeholder" aria-hidden="true"></span>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-fashion {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hero-fashion__container {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .hero-fashion__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    order: 1;
+  }
+
+  .hero-fashion__media {
+    position: relative;
+    order: 2;
+    width: 100%;
+  }
+
+  .hero-fashion__heading {
+    margin: 0;
+    font-family: var(--shopco-font-display);
+    text-transform: uppercase;
+  }
+
+  .hero-fashion__text {
+    font-family: var(--shopco-font-body);
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .hero-fashion__text p {
+    margin: 0;
+  }
+
+  .hero-fashion__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 5.2rem;
+    padding: 1.2rem 3.2rem;
+    font-family: var(--shopco-font-body);
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .hero-fashion__button:hover {
+    transform: translateY(-2px);
+  }
+
+  .hero-fashion__button--primary {
+    background-color: #000;
+    color: #fff;
+  }
+
+  .hero-fashion__button--secondary {
+    background-color: #fff;
+    color: #000;
+    border-color: #000;
+  }
+
+  .hero-fashion__button--outline {
+    background-color: transparent;
+    color: #000;
+    border-color: #000;
+  }
+
+  .hero-fashion__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem 2.4rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hero-fashion__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 1.6rem;
+  }
+
+  .hero-fashion__stat:nth-child(odd) {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-fashion__stat:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    border-right: 0;
+  }
+
+  .hero-fashion__stat-number {
+    font-family: var(--shopco-font-display);
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .hero-fashion__stat-label {
+    font-family: var(--shopco-font-body);
+    font-size: 1.4rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .hero-fashion__image-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .hero-fashion__image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .hero-fashion__image--cover {
+    object-fit: cover;
+  }
+
+  .hero-fashion__image--contain {
+    object-fit: contain;
+  }
+
+  .hero-fashion__decoration {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .hero-fashion__decoration-img,
+  .hero-fashion__decoration-placeholder {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-fashion__decoration-placeholder {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  @media screen and (min-width: 990px) {
+    .hero-fashion__container {
+      grid-template-columns: 45% 1fr;
+    }
+
+    .hero-fashion__content {
+      align-items: flex-start;
+      text-align: left;
+      order: 1;
+    }
+
+    .hero-fashion__media {
+      order: 2;
+      align-self: end;
+    }
+
+    .hero-fashion__stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0;
+    }
+
+    .hero-fashion__stat {
+      align-items: flex-start;
+      padding: 0 2.4rem;
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-fashion__stat:first-child {
+      padding-left: 0;
+    }
+
+    .hero-fashion__stat:last-child {
+      border-right: 0;
+    }
+
+    .hero-fashion__stat:nth-child(odd) {
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-fashion__stat:last-child:nth-child(odd) {
+      grid-column: auto;
+      border-right: 0;
+    }
+
+    .hero-fashion__stat-number {
+      font-size: 4rem;
+    }
+
+    .hero-fashion__image-wrapper {
+      justify-content: flex-end;
+    }
+  }
+
+  .hero-fashion--animate .hero-fashion__block,
+  .hero-fashion--animate .hero-fashion__stat,
+  .hero-fashion--animate .hero-fashion__image-wrapper,
+  .hero-fashion--animate .hero-fashion__decoration {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: heroFadeUp 0.6s ease forwards;
+  }
+
+  .hero-fashion--animate .hero-fashion__content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-fashion--animate .hero-fashion__content > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-fashion--animate .hero-fashion__content > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-fashion--animate .hero-fashion__content > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-fashion--animate .hero-fashion__content > *:nth-child(5) { animation-delay: 0.5s; }
+
+  .hero-fashion--animate .hero-fashion__media > *:nth-child(1) { animation-delay: 0.4s; }
+  .hero-fashion--animate .hero-fashion__media > *:nth-child(2) { animation-delay: 0.5s; }
+  .hero-fashion--animate .hero-fashion__media > *:nth-child(3) { animation-delay: 0.6s; }
+  .hero-fashion--animate .hero-fashion__media > *:nth-child(4) { animation-delay: 0.7s; }
+
+  .hero-fashion--animate .hero-fashion__decoration {
+    animation: heroFadeUp 0.6s ease forwards, heroFloat 4s ease-in-out infinite;
+  }
+
+  @keyframes heroFadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroFloat {
+    0%, 100% { transform: translate(-50%, -50%) rotate(var(--deco-rotation, 0deg)) translateY(0); }
+    50% { transform: translate(-50%, -50%) rotate(var(--deco-rotation, 0deg)) translateY(-8px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-fashion--animate .hero-fashion__block,
+    .hero-fashion--animate .hero-fashion__stat,
+    .hero-fashion--animate .hero-fashion__image-wrapper,
+    .hero-fashion--animate .hero-fashion__decoration {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero Fashion",
+  "tag": "section",
+  "class": "hero-fashion-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "default": "#f2f0f1",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 720,
+      "max": 1920,
+      "step": 20,
+      "unit": "px",
+      "default": 1440,
+      "label": "Container max width"
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48,
+      "label": "Content gap"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "default": "center",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Desktop padding"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "label": "Top"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "label": "Bottom"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "label": "Left"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "label": "Right"
+    },
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24,
+      "label": "Top"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24,
+      "label": "Bottom"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_left",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24,
+      "label": "Left"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_right",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24,
+      "label": "Right"
+    },
+    {
+      "type": "checkbox",
+      "id": "rounded_container",
+      "default": false,
+      "label": "Rounded container"
+    },
+    {
+      "type": "range",
+      "id": "rounded_radius",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "label": "Border radius"
+    },
+    {
+      "type": "checkbox",
+      "id": "animation_toggle",
+      "default": true,
+      "label": "Enable fade-up animations"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        { "type": "text", "id": "text", "default": "FIND CLOTHES\nTHAT MATCHES\nYOUR STYLE", "label": "Text", "info": "Use line breaks to stack text." },
+        { "type": "select", "id": "html_tag", "label": "HTML tag", "default": "h1", "options": [{ "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" }, { "value": "h3", "label": "H3" }] },
+        { "type": "select", "id": "font_family", "label": "Font family", "default": "display", "options": [{ "value": "display", "label": "Display" }, { "value": "body", "label": "Body" }] },
+        { "type": "range", "id": "font_size_desktop", "min": 1, "max": 10, "step": 0.1, "unit": "rem", "default": 5.6, "label": "Font size (desktop)" },
+        { "type": "range", "id": "font_size_mobile", "min": 1, "max": 8, "step": 0.1, "unit": "rem", "default": 3.6, "label": "Font size (mobile)" },
+        { "type": "select", "id": "font_weight", "label": "Font weight", "default": "700", "options": [{ "value": "100", "label": "100" }, { "value": "200", "label": "200" }, { "value": "300", "label": "300" }, { "value": "400", "label": "400" }, { "value": "500", "label": "500" }, { "value": "600", "label": "600" }, { "value": "700", "label": "700" }, { "value": "800", "label": "800" }, { "value": "900", "label": "900" }] },
+        { "type": "color", "id": "color", "default": "#000000", "label": "Color" },
+        { "type": "range", "id": "max_width", "min": 0, "max": 1000, "step": 20, "unit": "px", "default": 600, "label": "Max width" },
+        { "type": "range", "id": "line_height", "min": 0.8, "max": 2.5, "step": 0.1, "default": 1.1, "label": "Line height" },
+        { "type": "text", "id": "letter_spacing", "default": "0", "label": "Letter spacing", "info": "In em, e.g. 0.05" },
+        { "type": "select", "id": "text_alignment", "label": "Text alignment", "default": "left", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }] }
+      ]
+    },
+    {
+      "type": "richtext",
+      "name": "Rich text",
+      "settings": [
+        { "type": "richtext", "id": "content", "default": "<p>Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>", "label": "Content" },
+        { "type": "range", "id": "width", "min": 0, "max": 1000, "step": 20, "unit": "px", "default": 540, "label": "Max width" },
+        { "type": "color", "id": "color", "default": "#000000", "label": "Color" }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "default": "Shop Now", "label": "Label" },
+        { "type": "url", "id": "url", "label": "URL" },
+        { "type": "select", "id": "style", "label": "Style", "default": "primary", "options": [{ "value": "primary", "label": "Primary" }, { "value": "secondary", "label": "Secondary" }, { "value": "outline", "label": "Outline" }] },
+        { "type": "select", "id": "width", "label": "Width", "default": "auto", "options": [{ "value": "auto", "label": "Auto" }, { "value": "full", "label": "Full width" }] },
+        { "type": "color", "id": "background_color", "default": "#000000", "label": "Background color" },
+        { "type": "color", "id": "text_color", "default": "#ffffff", "label": "Text color" },
+        { "type": "color", "id": "border_color", "default": "#000000", "label": "Border color" },
+        { "type": "range", "id": "border_radius", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 62, "label": "Border radius" }
+      ]
+    },
+    {
+      "type": "statistic",
+      "name": "Statistic",
+      "settings": [
+        { "type": "text", "id": "number", "default": "200+", "label": "Number" },
+        { "type": "text", "id": "label", "default": "International Brands", "label": "Label" },
+        { "type": "color", "id": "number_color", "default": "#000000", "label": "Number color" },
+        { "type": "color", "id": "label_color", "default": "#000000", "label": "Label color" }
+      ]
+    },
+    {
+      "type": "hero_image",
+      "name": "Hero image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Desktop image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile image (optional)" },
+        { "type": "text", "id": "alt_text", "label": "Alt text" },
+        { "type": "range", "id": "image_width", "min": 100, "max": 1000, "step": 10, "unit": "px", "default": 600, "label": "Image width" },
+        { "type": "select", "id": "object_fit", "label": "Object fit", "default": "contain", "options": [{ "value": "contain", "label": "Contain" }, { "value": "cover", "label": "Cover" }] },
+        { "type": "select", "id": "image_position", "label": "Image position", "default": "right", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }] }
+      ]
+    },
+    {
+      "type": "decoration",
+      "name": "Decoration",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image (SVG or PNG)" },
+        { "type": "range", "id": "width_desktop", "min": 10, "max": 500, "step": 5, "unit": "px", "default": 120, "label": "Width (desktop)" },
+        { "type": "range", "id": "width_mobile", "min": 10, "max": 300, "step": 5, "unit": "px", "default": 80, "label": "Width (mobile)" },
+        { "type": "range", "id": "position_x", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 80, "label": "Position X" },
+        { "type": "range", "id": "position_y", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 20, "label": "Position Y" },
+        { "type": "range", "id": "rotation", "min": 0, "max": 360, "step": 5, "unit": "deg", "default": 0, "label": "Rotation" },
+        { "type": "range", "id": "opacity", "min": 0, "max": 1, "step": 0.1, "default": 1, "label": "Opacity" },
+        { "type": "checkbox", "id": "hide_on_mobile", "default": false, "label": "Hide on mobile" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Fashion",
+      "category": "Shopco",
+      "blocks": {
+        "heading": { "type": "heading" },
+        "richtext": { "type": "richtext" },
+        "button": { "type": "button" },
+        "stat-1": { "type": "statistic" },
+        "stat-2": { "type": "statistic" },
+        "stat-3": { "type": "statistic" },
+        "image": { "type": "hero_image" },
+        "deco-1": { "type": "decoration" }
+      },
+      "block_order": ["heading", "richtext", "button", "stat-1", "stat-2", "stat-3", "image", "deco-1"]
+    }
+  ]
+}
+{% endschema %}

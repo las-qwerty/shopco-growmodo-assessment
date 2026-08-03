@@ -16,7 +16,19 @@
         "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
         "button_label": "Shop Now",
         "button_link": "/collections/all",
+        "image": "shopify://shop_images/hero-image.jpg",
+        "background_color": "#f2f0f1",
+        "text_color": "#000000",
         "show_sparkles": true,
+        "content_alignment": "left",
+        "content_max_width": 600,
+        "content_gap": 20,
+        "section_width": "page",
+        "section_max_width": 1400,
+        "section_min_height_mobile": 0,
+        "section_min_height_desktop": 0,
+        "padding_top": 64,
+        "padding_bottom": 64,
         "stat_1_value": "200+",
         "stat_1_label": "International Brands",
         "stat_2_value": "2,000+",
@@ -82,7 +94,9 @@
         "show_secondary_image": true,
         "show_rating": true,
         "show_view_all": true,
-        "show_divider": true
+        "show_divider": true,
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "top_selling": {
@@ -94,7 +108,9 @@
         "show_secondary_image": true,
         "show_rating": true,
         "show_view_all": true,
-        "show_divider": true
+        "show_divider": true,
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "categories": {
@@ -104,6 +120,7 @@
           "type": "category",
           "settings": {
             "title": "Casual",
+            "collection": "",
             "card_width": "narrow"
           }
         },
@@ -111,6 +128,7 @@
           "type": "category",
           "settings": {
             "title": "Formal",
+            "collection": "",
             "card_width": "wide"
           }
         },
@@ -118,6 +136,7 @@
           "type": "category",
           "settings": {
             "title": "Party",
+            "collection": "",
             "card_width": "wide"
           }
         },
@@ -125,6 +144,7 @@
           "type": "category",
           "settings": {
             "title": "Gym",
+            "collection": "",
             "card_width": "narrow"
           }
         }
@@ -136,13 +156,24 @@
         "category-4"
       ],
       "settings": {
-        "title": "BROWSE BY DRESS STYLE"
+        "title": "BROWSE BY DRESS STYLE",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "testimonials": {
       "type": "shopco-testimonials",
       "blocks": {
         "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sarah M.",
+            "quote": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece has exceeded my expectations.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "testimonial_cDQw4d": {
           "type": "testimonial",
           "settings": {
             "name": "Sarah M.",
@@ -160,7 +191,34 @@
             "verified": true
           }
         },
+        "testimonial_BmHRKG": {
+          "type": "testimonial",
+          "settings": {
+            "name": "James L.",
+            "quote": "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "testimonial_rAx9mq": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sarah M.",
+            "quote": "I'm blown away by the quality and style of the clothes I received from Shop.co.",
+            "rating": 5,
+            "verified": true
+          }
+        },
         "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Emily R.",
+            "quote": "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have found Shop.co. The selection is diverse and on-point with the latest trends.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "testimonial_xWqL9j": {
           "type": "testimonial",
           "settings": {
             "name": "Emily R.",
@@ -172,11 +230,17 @@
       },
       "block_order": [
         "testimonial-1",
+        "testimonial_cDQw4d",
         "testimonial-2",
-        "testimonial-3"
+        "testimonial_BmHRKG",
+        "testimonial_rAx9mq",
+        "testimonial-3",
+        "testimonial_xWqL9j"
       ],
       "settings": {
-        "title": "OUR HAPPY CUSTOMERS"
+        "title": "OUR HAPPY CUSTOMERS",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "newsletter": {
@@ -185,7 +249,9 @@
         "title": "STAY UPTO DATE ABOUT OUR LATEST OFFERS",
         "text": "We have clothes that suits your style and which you'll be proud to wear. From women to men.",
         "button_label": "Subscribe to Newsletter",
-        "overlap_footer": false
+        "overlap_footer": false,
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     }
   },

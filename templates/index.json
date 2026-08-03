@@ -16,7 +16,6 @@
         "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
         "button_label": "Shop Now",
         "button_link": "/collections/all",
-        "image": "shopify://shop_images/hero-image.jpg",
         "show_sparkles": true,
         "stat_1_value": "200+",
         "stat_1_label": "International Brands",
@@ -33,7 +32,6 @@
           "type": "brand",
           "settings": {
             "brand_name": "VERSACE",
-            "logo": "shopify://shop_images/Vector.png",
             "link": ""
           }
         },
@@ -41,7 +39,6 @@
           "type": "brand",
           "settings": {
             "brand_name": "ZARA",
-            "logo": "shopify://shop_images/zara-logo-1_1.png",
             "link": ""
           }
         },
@@ -49,7 +46,6 @@
           "type": "brand",
           "settings": {
             "brand_name": "GUCCI",
-            "logo": "shopify://shop_images/gucci-logo-1_1.png",
             "link": ""
           }
         },
@@ -57,7 +53,6 @@
           "type": "brand",
           "settings": {
             "brand_name": "PRADA",
-            "logo": "shopify://shop_images/prada-logo-1_1.png",
             "link": ""
           }
         },
@@ -65,7 +60,6 @@
           "type": "brand",
           "settings": {
             "brand_name": "CALVIN KLEIN",
-            "logo": "shopify://shop_images/Group.png",
             "link": ""
           }
         }
@@ -88,9 +82,7 @@
         "show_secondary_image": true,
         "show_rating": true,
         "show_view_all": true,
-        "show_divider": true,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "show_divider": true
       }
     },
     "top_selling": {
@@ -102,9 +94,7 @@
         "show_secondary_image": true,
         "show_rating": true,
         "show_view_all": true,
-        "show_divider": true,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "show_divider": true
       }
     },
     "categories": {
@@ -114,7 +104,6 @@
           "type": "category",
           "settings": {
             "title": "Casual",
-            "collection": "",
             "card_width": "narrow"
           }
         },
@@ -122,7 +111,6 @@
           "type": "category",
           "settings": {
             "title": "Formal",
-            "collection": "",
             "card_width": "wide"
           }
         },
@@ -130,7 +118,6 @@
           "type": "category",
           "settings": {
             "title": "Party",
-            "collection": "",
             "card_width": "wide"
           }
         },
@@ -138,7 +125,6 @@
           "type": "category",
           "settings": {
             "title": "Gym",
-            "collection": "",
             "card_width": "narrow"
           }
         }
@@ -150,9 +136,7 @@
         "category-4"
       ],
       "settings": {
-        "title": "BROWSE BY DRESS STYLE",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "title": "BROWSE BY DRESS STYLE"
       }
     },
     "testimonials": {
@@ -192,9 +176,7 @@
         "testimonial-3"
       ],
       "settings": {
-        "title": "OUR HAPPY CUSTOMERS",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "title": "OUR HAPPY CUSTOMERS"
       }
     },
     "newsletter": {
@@ -203,9 +185,7 @@
         "title": "STAY UPTO DATE ABOUT OUR LATEST OFFERS",
         "text": "We have clothes that suits your style and which you'll be proud to wear. From women to men.",
         "button_label": "Subscribe to Newsletter",
-        "overlap_footer": false,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "overlap_footer": false
       }
     }
   },

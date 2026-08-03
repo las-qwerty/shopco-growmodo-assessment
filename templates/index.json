@@ -16,18 +16,7 @@
         "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
         "button_label": "Shop Now",
         "button_link": "/collections/all",
-        "background_color": "#f2f0f1",
-        "text_color": "#000000",
         "show_sparkles": true,
-        "content_alignment": "left",
-        "content_max_width": 1400,
-        "content_gap": 20,
-        "section_width": "page",
-        "section_max_width": 1400,
-        "section_min_height_mobile": 0,
-        "section_min_height_desktop": 0,
-        "padding_top": 64,
-        "padding_bottom": 64,
         "stat_1_value": "200+",
         "stat_1_label": "International Brands",
         "stat_2_value": "2,000+",
@@ -93,9 +82,7 @@
         "show_secondary_image": true,
         "show_rating": true,
         "show_view_all": true,
-        "show_divider": true,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "show_divider": true
       }
     },
     "top_selling": {
@@ -107,9 +94,7 @@
         "show_secondary_image": true,
         "show_rating": true,
         "show_view_all": true,
-        "show_divider": true,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "show_divider": true
       }
     },
     "categories": {
@@ -119,7 +104,6 @@
           "type": "category",
           "settings": {
             "title": "Casual",
-            "collection": "",
             "card_width": "narrow"
           }
         },
@@ -127,7 +111,6 @@
           "type": "category",
           "settings": {
             "title": "Formal",
-            "collection": "",
             "card_width": "wide"
           }
         },
@@ -135,7 +118,6 @@
           "type": "category",
           "settings": {
             "title": "Party",
-            "collection": "",
             "card_width": "wide"
           }
         },
@@ -143,7 +125,6 @@
           "type": "category",
           "settings": {
             "title": "Gym",
-            "collection": "",
             "card_width": "narrow"
           }
         }
@@ -155,9 +136,7 @@
         "category-4"
       ],
       "settings": {
-        "title": "BROWSE BY DRESS STYLE",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "title": "BROWSE BY DRESS STYLE"
       }
     },
     "testimonials": {
@@ -197,9 +176,7 @@
         "testimonial-3"
       ],
       "settings": {
-        "title": "OUR HAPPY CUSTOMERS",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "title": "OUR HAPPY CUSTOMERS"
       }
     },
     "newsletter": {
@@ -208,9 +185,7 @@
         "title": "STAY UPTO DATE ABOUT OUR LATEST OFFERS",
         "text": "We have clothes that suits your style and which you'll be proud to wear. From women to men.",
         "button_label": "Subscribe to Newsletter",
-        "overlap_footer": false,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "overlap_footer": false
       }
     }
   },

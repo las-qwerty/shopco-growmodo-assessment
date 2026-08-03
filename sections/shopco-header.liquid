@@ -123,7 +123,7 @@
           class="shopco-header__icon"
           aria-label="{{ 'customer.account.title' | t }}"
         >
-          <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+          <img src="{{ 'icon-account.png' | asset_url }}" alt="" width="24" height="24" loading="eager">
         </a>
       {%- endif -%}
 
@@ -133,7 +133,7 @@
           class="shopco-header__icon shopco-header__icon--cart"
           aria-label="{{ 'shopco.header.cart' | t }}"
         >
-          <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+          <img src="{{ 'icon-cart.png' | asset_url }}" alt="" width="24" height="24" loading="eager">
           {%- if cart.item_count > 0 -%}
             <span class="shopco-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
           {%- endif -%}

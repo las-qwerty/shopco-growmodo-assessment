@@ -1243,7 +1243,8 @@
   position: relative;
 }
 
-.shopco-header__icon:not(.shopco-header__icon--menu) svg {
+.shopco-header__icon:not(.shopco-header__icon--menu) svg,
+.shopco-header__icon:not(.shopco-header__icon--menu) img {
   width: auto;
   height: 2.4rem;
   display: block;

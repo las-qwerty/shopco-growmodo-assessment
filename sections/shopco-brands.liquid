@@ -1,0 +1,85 @@
+{% comment %}
+  Shopco - Brand logos marquee
+{% endcomment %}
+
+{%- if section.blocks.size > 0 -%}
+  <div class="shopco-brands" id="section-{{ section.id }}">
+    <div class="shopco-page-width">
+      <ul class="shopco-brands__list" role="list">
+        {%- for block in section.blocks -%}
+          <li class="shopco-brands__item" {{ block.shopify_attributes }}>
+            <a class="shopco-link" href="{{ block.settings.link | default: '#' }}">
+              <span class="shopco-brands__logo">{{ block.settings.brand_name | escape }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Shopco Brands",
+  "tag": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "text",
+          "id": "brand_name",
+          "default": "VERSACE",
+          "label": "Brand name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Brands",
+      "category": "Shopco",
+      "block_order": ["brand-1", "brand-2", "brand-3", "brand-4", "brand-5"],
+      "blocks": {
+        "brand-1": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "VERSACE"
+          }
+        },
+        "brand-2": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "ZARA"
+          }
+        },
+        "brand-3": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "GUCCI"
+          }
+        },
+        "brand-4": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "PRADA"
+          }
+        },
+        "brand-5": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "CALVIN KLEIN"
+          }
+        }
+      }
+    }
+  ]
+}
+{% endschema %}

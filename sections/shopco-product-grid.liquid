@@ -1,0 +1,137 @@
+{% comment %}
+  Shopco - Product grid (New Arrivals / Top Selling)
+{% endcomment %}
+
+{%- liquid
+  assign collection = section.settings.collection
+  assign products_to_show = section.settings.products_to_show | default: 4
+  assign show_secondary_image = section.settings.show_secondary_image
+-%}
+
+<section class="shopco-section" id="section-{{ section.id }}">
+  <div class="shopco-page-width">
+    <div class="shopco-product-grid__header">
+      <h2 class="shopco-product-grid__title">{{ section.settings.title | escape }}</h2>
+      {%- if section.settings.show_view_all and collection != blank -%}
+        <a href="{{ collection.url }}" class="shopco-product-grid__view-all shopco-link">
+          {{ 'View All' | escape }} &rarr;
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="shopco-product-grid__grid" role="list">
+      {%- if collection != blank and collection.products.size > 0 -%}
+        {%- for product in collection.products limit: products_to_show -%}
+          {%- assign variant = product.selected_or_first_available_variant -%}
+          <a href="{{ product.url }}" class="shopco-product-card" role="listitem" aria-label="{{ product.title | escape }}">
+            <div class="shopco-product-card__media">
+              {%- if product.featured_media -%}
+                {%- assign image = product.featured_media -%}
+                <img
+                  srcset="
+                    {%- if image.width >= 330 -%}{{ image | image_url: width: 330 }} 330w,{%- endif -%}
+                    {%- if image.width >= 660 -%}{{ image | image_url: width: 660 }} 660w,{%- endif -%}
+                    {%- if image.width >= 990 -%}{{ image | image_url: width: 990 }} 990w,{%- endif -%}
+                    {{ image | image_url }} {{ image.width }}w
+                  "
+                  src="{{ image | image_url: width: 660 }}"
+                  sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 100vw"
+                  alt="{{ image.alt | escape }}"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+                  loading="lazy"
+                  class="shopco-product-card__primary"
+                >
+                {%- if product.media[1] != blank and show_secondary_image -%}
+                  {%- assign image_2 = product.media[1] -%}
+                  <img
+                    srcset="
+                      {%- if image_2.width >= 330 -%}{{ image_2 | image_url: width: 330 }} 330w,{%- endif -%}
+                      {%- if image_2.width >= 660 -%}{{ image_2 | image_url: width: 660 }} 660w,{%- endif -%}
+                      {%- if image_2.width >= 990 -%}{{ image_2 | image_url: width: 990 }} 990w,{%- endif -%}
+                      {{ image_2 | image_url }} {{ image_2.width }}w
+                    "
+                    src="{{ image_2 | image_url: width: 660 }}"
+                    sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 100vw"
+                    alt="{{ image_2.alt | escape }}"
+                    width="{{ image_2.width }}"
+                    height="{{ image_2.height }}"
+                    loading="lazy"
+                    class="shopco-product-card__secondary"
+                  >
+                {%- endif -%}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'shopco-product-card__media' }}
+              {%- endif -%}
+            </div>
+            <h3 class="shopco-product-card__title">{{ product.title | escape }}</h3>
+            <div class="shopco-product-card__price">
+              {{ variant.price | money }}
+              {%- if variant.compare_at_price > variant.price -%}
+                <span class="shopco-product-card__price--compare">{{ variant.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..products_to_show) -%}
+          <a href="{{ routes.root_url }}" class="shopco-product-card" role="listitem">
+            <div class="shopco-product-card__media">
+              {{ 'product-1' | placeholder_svg_tag: 'shopco-product-card__media' }}
+            </div>
+            <h3 class="shopco-product-card__title">Product {{ i }}</h3>
+            <div class="shopco-product-card__price">$120.00</div>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shopco Product Grid",
+  "tag": "section",
+  "class": "shopco-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "NEW ARRIVALS",
+      "label": "Heading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": true,
+      "label": "Show secondary image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": true,
+      "label": "Show 'View all' link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Product Grid",
+      "category": "Shopco"
+    }
+  ]
+}
+{% endschema %}

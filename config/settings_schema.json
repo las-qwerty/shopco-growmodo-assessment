@@ -1,11 +1,11 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Dawn",
-    "theme_version": "15.5.0",
-    "theme_author": "Shopify",
-    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
-    "theme_support_url": "https://support.shopify.com/"
+    "theme_name": "Shopco",
+    "theme_version": "1.0.0",
+    "theme_author": "LawrenceDev",
+    "theme_documentation_url": "https://github.com/growmodo/shopco-shopify",
+    "theme_support_url": "https://github.com/growmodo/shopco-shopify/issues"
   },
   {
     "name": "t:settings_schema.logo.name",

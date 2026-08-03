@@ -1,0 +1,121 @@
+{% comment %}
+  Shopco - Happy customers testimonials
+{% endcomment %}
+
+<section class="shopco-section" id="section-{{ section.id }}">
+  <div class="shopco-page-width">
+    <h2 class="shopco-section-title">{{ section.settings.title | escape }}</h2>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="shopco-testimonials__grid" role="list">
+        {%- for block in section.blocks -%}
+          <article class="shopco-testimonial" role="listitem" {{ block.shopify_attributes }}>
+            <div class="shopco-testimonial__rating" aria-label="{{ block.settings.rating }} out of 5 stars">
+              {%- for i in (1..5) -%}
+                {%- if i <= block.settings.rating -%}
+                  <span aria-hidden="true">&#9733;</span>
+                {%- else -%}
+                  <span aria-hidden="true" style="opacity: 0.3;">&#9733;</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <h3 class="shopco-testimonial__name">
+              {{ block.settings.name | escape }}
+              {%- if block.settings.verified -%}
+                <span class="shopco-testimonial__badge" aria-label="Verified customer">&#10003;</span>
+              {%- endif -%}
+            </h3>
+            <p class="shopco-testimonial__text">{{ block.settings.quote | escape }}</p>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shopco Testimonials",
+  "tag": "section",
+  "class": "shopco-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "OUR HAPPY CUSTOMERS",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "default": "Sarah M.",
+          "label": "Customer name"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "default": "I'm blown away by the quality and style of the clothes I received from Shop.co.",
+          "label": "Quote"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5,
+          "label": "Rating"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "default": true,
+          "label": "Verified buyer badge"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Testimonials",
+      "category": "Shopco",
+      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"],
+      "blocks": {
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sarah M.",
+            "quote": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece has exceeded my expectations.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "name": "James L.",
+            "quote": "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Emily R.",
+            "quote": "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have found Shop.co. The selection is diverse and on-point with the latest trends.",
+            "rating": 5,
+            "verified": true
+          }
+        }
+      }
+    }
+  ]
+}
+{% endschema %}

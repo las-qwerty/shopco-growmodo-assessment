@@ -1,0 +1,143 @@
+{% comment %}
+  Shopco - Hero section
+  Based on the Figma E-commerce Website Template (Freebie) by Hamza Naeem
+{% endcomment %}
+
+<section class="shopco-hero" id="section-{{ section.id }}">
+  <div class="shopco-page-width shopco-hero__inner">
+    <div class="shopco-hero__content">
+      <h1 class="shopco-hero__title">{{ section.settings.heading | escape }}</h1>
+      <p class="shopco-hero__text">{{ section.settings.text | escape }}</p>
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a href="{{ section.settings.button_link }}" class="shopco-hero__cta">
+          {{ section.settings.button_label | escape }}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.stat_1_value != blank or section.settings.stat_2_value != blank or section.settings.stat_3_value != blank -%}
+        <div class="shopco-hero__stats">
+          {%- for i in (1..3) -%}
+            {%- assign value_key = 'stat_' | append: i | append: '_value' -%}
+            {%- assign label_key = 'stat_' | append: i | append: '_label' -%}
+            {%- assign value = section.settings[value_key] -%}
+            {%- assign label = section.settings[label_key] -%}
+            {%- if value != blank -%}
+              <div class="shopco-hero__stat">
+                <span class="shopco-hero__stat-value">{{ value | escape }}</span>
+                <span class="shopco-hero__stat-label">{{ label | escape }}</span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="shopco-hero__media">
+      {%- if section.settings.image != blank -%}
+        {%- assign image = section.settings.image -%}
+        <img
+          srcset="
+            {%- if image.width >= 375 -%}{{ image | image_url: width: 375 }} 375w,{%- endif -%}
+            {%- if image.width >= 750 -%}{{ image | image_url: width: 750 }} 750w,{%- endif -%}
+            {%- if image.width >= 1100 -%}{{ image | image_url: width: 1100 }} 1100w,{%- endif -%}
+            {{ image | image_url }} {{ image.width }}w
+          "
+          src="{{ image | image_url: width: 800 }}"
+          sizes="(min-width: 990px) 50vw, 100vw"
+          alt="{{ image.alt | escape }}"
+          width="{{ image.width }}"
+          height="{{ image.height }}"
+          loading="eager"
+          class="shopco-hero__image"
+        >
+      {%- else -%}
+        {{ 'collection-1' | placeholder_svg_tag: 'shopco-hero__image' }}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shopco Hero",
+  "tag": "section",
+  "class": "shopco-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "FIND CLOTHES THAT MATCHES YOUR STYLE",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Shop Now",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "default": "/collections/all",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "header",
+      "content": "Statistics"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_value",
+      "default": "200+",
+      "label": "Stat 1 value"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "default": "International Brands",
+      "label": "Stat 1 label"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_value",
+      "default": "2,000+",
+      "label": "Stat 2 value"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "default": "High-Quality Products",
+      "label": "Stat 2 label"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_value",
+      "default": "30,000+",
+      "label": "Stat 3 value"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "default": "Happy Customers",
+      "label": "Stat 3 label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Hero",
+      "category": "Shopco"
+    }
+  ]
+}
+{% endschema %}

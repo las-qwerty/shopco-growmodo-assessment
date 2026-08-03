@@ -1,0 +1,114 @@
+{% comment %}
+  Shopco - Browse by dress style / categories
+{% endcomment %}
+
+<section class="shopco-section" id="section-{{ section.id }}">
+  <div class="shopco-page-width">
+    <h2 class="shopco-section-title">{{ section.settings.title | escape }}</h2>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="shopco-categories__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign collection_obj = block.settings.collection -%}
+          {%- assign title = block.settings.title | default: collection_obj.title | default: 'Category' -%}
+          {%- assign link = collection_obj.url | default: routes.root_url -%}
+          {%- assign image = block.settings.image | default: collection_obj.image -%}
+
+          <a href="{{ link }}" class="shopco-category-card" role="listitem">
+            {%- if image != blank -%}
+              <img
+                srcset="
+                  {%- if image.width >= 375 -%}{{ image | image_url: width: 375 }} 375w,{%- endif -%}
+                  {%- if image.width >= 750 -%}{{ image | image_url: width: 750 }} 750w,{%- endif -%}
+                  {{ image | image_url }} {{ image.width }}w
+                "
+                src="{{ image | image_url: width: 750 }}"
+                sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 100vw"
+                alt="{{ image.alt | escape }}"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+                loading="lazy"
+                class="shopco-category-card__image"
+              >
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'shopco-category-card__image' }}
+            {%- endif -%}
+            <span class="shopco-category-card__title">{{ title | escape }}</span>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shopco Categories",
+  "tag": "section",
+  "class": "shopco-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "BROWSE BY DRESS STYLE",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Categories",
+      "category": "Shopco",
+      "block_order": ["category-1", "category-2", "category-3", "category-4"],
+      "blocks": {
+        "category-1": {
+          "type": "category",
+          "settings": {
+            "title": "Casual"
+          }
+        },
+        "category-2": {
+          "type": "category",
+          "settings": {
+            "title": "Formal"
+          }
+        },
+        "category-3": {
+          "type": "category",
+          "settings": {
+            "title": "Party"
+          }
+        },
+        "category-4": {
+          "type": "category",
+          "settings": {
+            "title": "Gym"
+          }
+        }
+      }
+    }
+  ]
+}
+{% endschema %}

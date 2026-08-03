@@ -1,0 +1,88 @@
+{% comment %}
+  Shopco - Newsletter / stay up-to-date
+{% endcomment %}
+
+<section class="shopco-section" id="section-{{ section.id }}">
+  <div class="shopco-page-width">
+    <div class="shopco-newsletter">
+      <h2 class="shopco-newsletter__title">{{ section.settings.title | escape }}</h2>
+      {%- if section.settings.text != blank -%}
+        <p class="shopco-hero__text" style="margin: 0 auto 2rem; color: rgba(255,255,255,0.8);">
+          {{ section.settings.text | escape }}
+        </p>
+      {%- endif -%}
+
+      {%- form 'customer', id: 'ShopcoNewsletterForm', class: 'shopco-newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input
+          type="email"
+          name="contact[email]"
+          class="shopco-newsletter__input"
+          value="{{ form.email }}"
+          aria-required="true"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          {% if form.errors %}
+            autofocus
+            aria-invalid="true"
+            aria-describedby="Newsletter-error--{{ section.id }}"
+          {% elsif form.posted_successfully? %}
+            aria-describedby="Newsletter-success--{{ section.id }}"
+          {% endif %}
+          placeholder="Enter your email address"
+          required
+        >
+        <button type="submit" class="shopco-newsletter__button" name="commit" aria-label="{{ section.settings.button_label | default: 'Subscribe' | escape }}">
+          {{ section.settings.button_label | default: 'Subscribe' | escape }}
+        </button>
+
+        {%- if form.errors -%}
+          <small class="newsletter-form__message form__message" id="Newsletter-error--{{ section.id }}">
+            {{ form.errors | default_errors }}
+          </small>
+        {%- endif -%}
+
+        {%- if form.posted_successfully? -%}
+          <h3 class="newsletter-form__message newsletter-form__message--success" id="Newsletter-success--{{ section.id }}" tabindex="-1" autofocus>
+            {{ 'newsletter.success' | default: 'Thanks for subscribing!' | escape }}
+          </h3>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shopco Newsletter",
+  "tag": "section",
+  "class": "shopco-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "STAY UPTO DATE ABOUT OUR LATEST OFFERS",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "We have clothes that suits your style and which you'll be proud to wear. From women to men.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Subscribe",
+      "label": "Button label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Newsletter",
+      "category": "Shopco"
+    }
+  ]
+}
+{% endschema %}

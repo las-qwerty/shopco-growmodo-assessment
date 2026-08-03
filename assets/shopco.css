@@ -362,9 +362,15 @@
   display: flex;
   flex-direction: column;
   align-items: var(--group-align, flex-start);
+  justify-content: var(--group-justify, flex-start);
   text-align: var(--group-text-align, left);
   gap: var(--group-gap, 1.6rem);
-  max-width: 100%;
+  width: 100%;
+  max-width: var(--group-max-width, 100%);
+  background-color: var(--group-bg, transparent);
+  color: var(--group-text, inherit);
+  border-radius: var(--group-radius, 0);
+  padding: var(--group-padding, 0);
 }
 
 .shopco-hero__group--horizontal {

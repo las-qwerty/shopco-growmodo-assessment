@@ -7,7 +7,7 @@
 /*
  * Typefaces are declared in snippets/shopco-fonts.liquid (they need asset_url,
  * which is unavailable inside a plain .css file). The fallback stacks below keep
- * the layout intact until the licensed font files are uploaded to assets/.
+ * the layout intact if a font file fails to load.
  */
 
 :root {

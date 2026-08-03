@@ -35,19 +35,30 @@ The build is intended as a 4-hour Shopify Developer assessment. It focuses on de
   - `config/settings_schema.json` and `config/settings_data.json` – renamed theme identity and default Shopco preset
 
 ## Typography
-The reference design uses **Integral CF** (display) and **Satoshi** (body). Neither is freely
-licensable, so no font files are committed. Upload the licensed `.woff2` files to `assets/`
-with these exact names and they activate automatically:
+The reference design uses **Integral CF** (display) and **Satoshi** (body), declared in
+`snippets/shopco-fonts.liquid` and self-hosted from `assets/`:
 
-```
-integral-cf-bold.woff2
-satoshi-regular.woff2
-satoshi-medium.woff2
-satoshi-bold.woff2
-```
+| Asset | Family | Weight | Format |
+|---|---|---|---|
+| `integral-cf-bold.otf` | Integral CF | 700 | OpenType |
+| `satoshi-regular.woff` | Satoshi | 400 | WOFF |
+| `satoshi-medium.woff` | Satoshi | 500 | WOFF |
+| `satoshi-bold.woff` | Satoshi | 700 | WOFF |
 
-Until then, `--shopco-font-display` / `--shopco-font-body` fall back to Archivo Black / Arial
-Black and the merchant's Dawn body font, so layout and spacing stay correct.
+Integral CF (display) is applied to the hero heading, section titles and brand wordmarks;
+Satoshi carries all body copy, prices and UI text. The display face and Satoshi Regular are
+preloaded with `crossorigin`; all faces use `font-display: swap`, and
+`--shopco-font-display` / `--shopco-font-body` retain fallback stacks if a file fails to load.
+
+> **Licensing — action required before launch.** The bundled Integral CF file is the
+> **Fontspring DEMO** release, licensed for evaluation and static mockups only, *not* for web
+> embedding on a live store. Purchase a webfont licence and replace `integral-cf-bold.otf`
+> before going to production. The demo also carries a reduced glyph set; this is safe here only
+> because every element using the display face is `text-transform: uppercase`.
+
+Optional optimisation: converting these to `.woff2` cuts roughly 30% of the transfer size.
+It needs `fonttools`+`brotli` (`pip install fonttools brotli`), which is not installed in this
+workspace, so the original formats are used.
 
 ## Design Tokens
 Defined once on `:root` in `assets/shopco.css`:

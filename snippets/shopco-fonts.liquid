@@ -2,25 +2,50 @@
   Shopco - self-hosted display and body typefaces.
 
   The reference design uses Integral CF (display/headings) and Satoshi (body).
-  Neither is freely licensable, so they are not committed to this repository.
 
-  To activate them, upload the licensed .woff2 files to the theme `assets/`
-  folder using exactly these filenames:
+  IMPORTANT - licensing: the committed Integral CF file is the Fontspring DEMO
+  release, which is licensed for evaluation and static mockups only. It must be
+  replaced with a purchased licence before this theme goes to a live store. The
+  demo also ships a reduced glyph set, which is safe here only because every
+  element using the display face is uppercase.
 
-    integral-cf-bold.woff2
-    satoshi-regular.woff2
-    satoshi-medium.woff2
-    satoshi-bold.woff2
+  Files live in the theme `assets/` folder:
 
-  Until those files exist the @font-face rules simply fail to resolve and the
+    integral-cf-bold.otf   (display, 700)
+    satoshi-regular.woff   (body, 400)
+    satoshi-medium.woff    (body, 500)
+    satoshi-bold.woff      (body, 700)
+
+  If a file is ever missing, the @font-face rule simply fails to resolve and the
   fallback stacks in `shopco.css` take over, so the theme stays usable.
 {% endcomment %}
 
-{% comment %}theme-check-disable MissingAsset, AssetUrlNotFound{% endcomment %}
+{% comment %}
+  Raw link tags rather than `preload_tag`: font preloads must carry `crossorigin`
+  or the browser fetches the file twice, and `preload_tag` cannot emit it. This is
+  the same trade-off Dawn makes in layout/theme.liquid.
+{% endcomment %}
+{% comment %}theme-check-disable AssetPreload{% endcomment %}
+<link
+  rel="preload"
+  as="font"
+  href="{{ 'integral-cf-bold.otf' | asset_url }}"
+  type="font/otf"
+  crossorigin
+>
+<link
+  rel="preload"
+  as="font"
+  href="{{ 'satoshi-regular.woff' | asset_url }}"
+  type="font/woff"
+  crossorigin
+>
+{% comment %}theme-check-enable AssetPreload{% endcomment %}
+
 {%- style -%}
   @font-face {
     font-family: 'Integral CF';
-    src: url('{{ 'integral-cf-bold.woff2' | asset_url }}') format('woff2');
+    src: url('{{ 'integral-cf-bold.otf' | asset_url }}') format('opentype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -28,7 +53,7 @@
 
   @font-face {
     font-family: 'Satoshi';
-    src: url('{{ 'satoshi-regular.woff2' | asset_url }}') format('woff2');
+    src: url('{{ 'satoshi-regular.woff' | asset_url }}') format('woff');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -36,7 +61,7 @@
 
   @font-face {
     font-family: 'Satoshi';
-    src: url('{{ 'satoshi-medium.woff2' | asset_url }}') format('woff2');
+    src: url('{{ 'satoshi-medium.woff' | asset_url }}') format('woff');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -44,10 +69,9 @@
 
   @font-face {
     font-family: 'Satoshi';
-    src: url('{{ 'satoshi-bold.woff2' | asset_url }}') format('woff2');
+    src: url('{{ 'satoshi-bold.woff' | asset_url }}') format('woff');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
   }
 {%- endstyle -%}
-{% comment %}theme-check-enable MissingAsset, AssetUrlNotFound{% endcomment %}

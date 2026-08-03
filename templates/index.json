@@ -12,7 +12,7 @@
     "hero": {
       "type": "shopco-hero",
       "settings": {
-        "heading": "FIND CLOTHES THAT MATCHES YOUR STYLE",
+        "heading": "FIND CLOTHES\nTHAT MATCHES\nYOUR STYLE",
         "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
         "button_label": "Shop Now",
         "button_link": "/collections/all",

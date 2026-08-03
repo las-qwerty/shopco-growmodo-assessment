@@ -219,7 +219,7 @@
             {%- when 'heading' -%}
               {%- if block.settings.text != blank -%}
                 <{{ block.settings.html_tag }} class="shopco-hero__block shopco-hero__block--heading" id="ShopcoHeroBlock-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-                  {{ block.settings.text | escape }}
+                  {{ block.settings.text | newline_to_br }}
                 </{{ block.settings.html_tag }}>
               {%- endif -%}
             {%- when 'text' -%}
@@ -245,7 +245,7 @@
       {%- else -%}
         {%- if section.settings.heading != blank -%}
           <h1 class="shopco-hero__block shopco-hero__block--heading shopco-hero__title">
-            {{ section.settings.heading | escape }}
+            {{ section.settings.heading | newline_to_br }}
           </h1>
         {%- endif -%}
         {%- if section.settings.text != blank -%}
@@ -334,9 +334,9 @@
       "content": "Default content (used when no blocks are added)"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
-      "default": "FIND CLOTHES THAT MATCHES YOUR STYLE",
+      "default": "FIND CLOTHES\nTHAT MATCHES\nYOUR STYLE",
       "label": "Heading"
     },
     {

@@ -40,38 +40,27 @@
           <a href="{{ product.url }}" class="shopco-product-card">
             <div class="shopco-product-card__media">
               {%- if image != blank -%}
-                <img
-                  srcset="
-                    {%- if image.width >= 330 -%}{{ image | image_url: width: 330 }} 330w,{%- endif -%}
-                    {%- if image.width >= 660 -%}{{ image | image_url: width: 660 }} 660w,{%- endif -%}
-                    {%- if image.width >= 990 -%}{{ image | image_url: width: 990 }} 990w,{%- endif -%}
-                    {{ image | image_url: width: image.width }} {{ image.width }}w
-                  "
-                  src="{{ image | image_url: width: 660 }}"
-                  sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 62vw"
-                  alt="{{ image.alt | escape }}"
-                  width="{{ image.width }}"
-                  height="{{ image.height }}"
-                  loading="lazy"
-                  class="shopco-product-card__primary"
-                >
+                {{
+                  image
+                  | image_url: width: 660
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '330, 660, 990',
+                    sizes: '(min-width: 990px) 25vw, (min-width: 590px) 50vw, 62vw',
+                    alt: image.alt,
+                    class: 'shopco-product-card__primary'
+                }}
                 {%- if show_secondary_image and image_2 != blank -%}
-                  <img
-                    srcset="
-                      {%- if image_2.width >= 330 -%}{{ image_2 | image_url: width: 330 }} 330w,{%- endif -%}
-                      {%- if image_2.width >= 660 -%}{{ image_2 | image_url: width: 660 }} 660w,{%- endif -%}
-                      {%- if image_2.width >= 990 -%}{{ image_2 | image_url: width: 990 }} 990w,{%- endif -%}
-                      {{ image_2 | image_url: width: image_2.width }} {{ image_2.width }}w
-                    "
-                    src="{{ image_2 | image_url: width: 660 }}"
-                    sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 62vw"
-                    alt=""
-                    width="{{ image_2.width }}"
-                    height="{{ image_2.height }}"
-                    loading="lazy"
-                    aria-hidden="true"
-                    class="shopco-product-card__secondary"
-                  >
+                  {{
+                    image_2
+                    | image_url: width: 660
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '330, 660, 990',
+                      sizes: '(min-width: 990px) 25vw, (min-width: 590px) 50vw, 62vw',
+                      alt: '',
+                      class: 'shopco-product-card__secondary'
+                  }}
                 {%- endif -%}
               {%- else -%}
                 {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}

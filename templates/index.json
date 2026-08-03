@@ -16,6 +16,7 @@
         "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
         "button_label": "Shop Now",
         "button_link": "/collections/all",
+        "image": "shopify://shop_images/hero-image.jpg",
         "show_sparkles": true,
         "stat_1_value": "200+",
         "stat_1_label": "International Brands",

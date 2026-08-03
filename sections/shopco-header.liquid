@@ -14,6 +14,7 @@
   #shopify-section-{{ section.id }} {
     --header-background: {{ section.settings.background_color }};
     --header-text: {{ section.settings.text_color }};
+    --header-search-max-width: {{ section.settings.search_width }}px;
   }
 
   .shopco-header__inner {
@@ -34,7 +35,7 @@
   data-shopco-header
   {{ section.shopify_attributes }}
 >
-  <div class="shopco-page-width shopco-header__inner">
+  <div class="shopco-page-width shopco-header__inner shopco-header__inner--menu-{{ section.settings.menu_position }}">
     <button
       type="button"
       class="shopco-header__icon shopco-header__icon--menu"
@@ -220,6 +221,22 @@
       "info": "Top-level links with nested links become dropdowns."
     },
     {
+      "type": "select",
+      "id": "menu_position",
+      "label": "Menu position",
+      "default": "after",
+      "options": [
+        {
+          "value": "before",
+          "label": "Before logo"
+        },
+        {
+          "value": "after",
+          "label": "After logo"
+        }
+      ]
+    },
+    {
       "type": "checkbox",
       "id": "enable_search",
       "default": true,
@@ -268,6 +285,20 @@
       "id": "text_color",
       "default": "#000000",
       "label": "Text color"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "range",
+      "id": "search_width",
+      "min": 200,
+      "max": 640,
+      "step": 10,
+      "unit": "px",
+      "default": 400,
+      "label": "Search bar maximum width"
     },
     {
       "type": "header",

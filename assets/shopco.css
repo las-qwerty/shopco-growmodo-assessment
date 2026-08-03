@@ -1013,8 +1013,35 @@
 
 @media screen and (min-width: 990px) {
   .shopco-header__inner {
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    align-items: center;
     gap: 3.2rem;
+  }
+
+  .shopco-header__inner--menu-before .shopco-header__nav {
+    order: -1;
+  }
+
+  .shopco-header__logo {
+    flex: 0 0 auto;
+    justify-self: start;
+  }
+
+  .shopco-header__nav {
+    flex: 0 0 auto;
+  }
+
+  .shopco-header__tools {
+    margin-left: auto;
+    gap: 0.4rem;
+    flex: 1 1 auto;
+  }
+
+  .shopco-header__search {
+    display: block;
+    flex: 1 1 auto;
+    max-width: var(--header-search-max-width, 32rem);
+    min-width: 14rem;
   }
 }
 
@@ -1043,9 +1070,22 @@
   position: relative;
 }
 
-.shopco-header__icon svg {
-  width: 2.4rem;
+.shopco-header__icon:not(.shopco-header__icon--menu) svg {
+  width: auto;
   height: 2.4rem;
+  display: block;
+}
+
+.shopco-header__icon--menu svg {
+  width: 2.4rem;
+  height: auto;
+  display: block;
+}
+
+.shopco-header__search-icon svg {
+  width: auto;
+  height: 1.8rem;
+  display: block;
 }
 
 .shopco-header__icon--menu {
@@ -1162,7 +1202,7 @@
   display: none;
   position: relative;
   width: 100%;
-  max-width: 32rem;
+  max-width: var(--header-search-max-width, 32rem);
 }
 
 @media screen and (min-width: 990px) {

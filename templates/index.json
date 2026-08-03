@@ -11,82 +11,12 @@
   "sections": {
     "hero": {
       "type": "shopco-hero",
-      "blocks": {
-        "group_start_AQxaBK": {
-          "type": "group_start",
-          "settings": {
-            "layout": "stack",
-            "gap": 16,
-            "text_align": "left",
-            "max_width": 0,
-            "background_color": "rgba(0,0,0,0)",
-            "text_color": "#000000",
-            "border_radius": 0,
-            "padding_x": 0,
-            "padding_y": 0
-          }
-        },
-        "heading_j7P3dD": {
-          "type": "heading",
-          "settings": {
-            "text": "FIND CLOTHES THAT MATCHES YOUR STYLE",
-            "html_tag": "h1",
-            "font_family": "display",
-            "font_size_desktop": 6,
-            "font_size_mobile": 3.6,
-            "font_weight": "700",
-            "line_height": 1.1,
-            "letter_spacing": 0,
-            "text_transform": "uppercase",
-            "text_align": "left",
-            "text_color": "#000000"
-          }
-        },
-        "text_8hLJ7V": {
-          "type": "text",
-          "settings": {
-            "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
-            "font_family": "body",
-            "font_size_desktop": 1.6,
-            "font_size_mobile": 1.6,
-            "font_weight": "400",
-            "line_height": 1.5,
-            "letter_spacing": 0,
-            "text_transform": "none",
-            "text_align": "left",
-            "text_color": "#000000",
-            "max_width": 540
-          }
-        },
-        "group_end_mNbFNA": {
-          "type": "group_end",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "group_start_AQxaBK",
-        "heading_j7P3dD",
-        "text_8hLJ7V",
-        "group_end_mNbFNA"
-      ],
       "settings": {
         "heading": "FIND CLOTHES THAT MATCHES YOUR STYLE",
         "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
         "button_label": "Shop Now",
         "button_link": "/collections/all",
-        "image": "shopify://shop_images/hero-image.jpg",
-        "background_color": "#f2f0f1",
-        "text_color": "#000000",
         "show_sparkles": true,
-        "content_alignment": "center",
-        "content_max_width": 600,
-        "content_gap": 20,
-        "section_width": "custom",
-        "section_max_width": 1440,
-        "section_min_height_mobile": 0,
-        "section_min_height_desktop": 0,
-        "padding_top": 0,
-        "padding_bottom": 0,
         "stat_1_value": "200+",
         "stat_1_label": "International Brands",
         "stat_2_value": "2,000+",
@@ -152,9 +82,7 @@
         "show_secondary_image": true,
         "show_rating": true,
         "show_view_all": true,
-        "show_divider": true,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "show_divider": true
       }
     },
     "top_selling": {
@@ -166,9 +94,7 @@
         "show_secondary_image": true,
         "show_rating": true,
         "show_view_all": true,
-        "show_divider": true,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "show_divider": true
       }
     },
     "categories": {
@@ -178,7 +104,6 @@
           "type": "category",
           "settings": {
             "title": "Casual",
-            "collection": "",
             "card_width": "narrow"
           }
         },
@@ -186,7 +111,6 @@
           "type": "category",
           "settings": {
             "title": "Formal",
-            "collection": "",
             "card_width": "wide"
           }
         },
@@ -194,7 +118,6 @@
           "type": "category",
           "settings": {
             "title": "Party",
-            "collection": "",
             "card_width": "wide"
           }
         },
@@ -202,7 +125,6 @@
           "type": "category",
           "settings": {
             "title": "Gym",
-            "collection": "",
             "card_width": "narrow"
           }
         }
@@ -214,9 +136,7 @@
         "category-4"
       ],
       "settings": {
-        "title": "BROWSE BY DRESS STYLE",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "title": "BROWSE BY DRESS STYLE"
       }
     },
     "testimonials": {
@@ -256,9 +176,7 @@
         "testimonial-3"
       ],
       "settings": {
-        "title": "OUR HAPPY CUSTOMERS",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "title": "OUR HAPPY CUSTOMERS"
       }
     },
     "newsletter": {
@@ -267,9 +185,7 @@
         "title": "STAY UPTO DATE ABOUT OUR LATEST OFFERS",
         "text": "We have clothes that suits your style and which you'll be proud to wear. From women to men.",
         "button_label": "Subscribe to Newsletter",
-        "overlap_footer": false,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "overlap_footer": false
       }
     }
   },

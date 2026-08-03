@@ -12,7 +12,8 @@
         "stat_2_value": "2,000+",
         "stat_2_label": "High-Quality Products",
         "stat_3_value": "30,000+",
-        "stat_3_label": "Happy Customers"
+        "stat_3_label": "Happy Customers",
+        "show_sparkles": true
       }
     },
     "brands": {
@@ -63,7 +64,9 @@
         "collection": "all",
         "products_to_show": 4,
         "show_secondary_image": true,
-        "show_view_all": true
+        "show_rating": true,
+        "show_view_all": true,
+        "show_divider": true
       }
     },
     "top_selling": {
@@ -73,7 +76,9 @@
         "collection": "all",
         "products_to_show": 4,
         "show_secondary_image": true,
-        "show_view_all": true
+        "show_rating": true,
+        "show_view_all": true,
+        "show_divider": true
       }
     },
     "categories": {
@@ -85,25 +90,29 @@
         "category-1": {
           "type": "category",
           "settings": {
-            "title": "Casual"
+            "title": "Casual",
+            "card_width": "narrow"
           }
         },
         "category-2": {
           "type": "category",
           "settings": {
-            "title": "Formal"
+            "title": "Formal",
+            "card_width": "wide"
           }
         },
         "category-3": {
           "type": "category",
           "settings": {
-            "title": "Party"
+            "title": "Party",
+            "card_width": "wide"
           }
         },
         "category-4": {
           "type": "category",
           "settings": {
-            "title": "Gym"
+            "title": "Gym",
+            "card_width": "narrow"
           }
         }
       },
@@ -150,7 +159,8 @@
       "settings": {
         "title": "STAY UPTO DATE ABOUT OUR LATEST OFFERS",
         "text": "We have clothes that suits your style and which you'll be proud to wear. From women to men.",
-        "button_label": "Subscribe"
+        "button_label": "Subscribe",
+        "overlap_footer": false
       }
     }
   },

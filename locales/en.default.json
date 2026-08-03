@@ -529,5 +529,13 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
+  },
+  "shopco": {
+    "testimonials": {
+      "verified": "Verified customer"
+    },
+    "newsletter": {
+      "email_placeholder": "Enter your email address"
+    }
   }
 }

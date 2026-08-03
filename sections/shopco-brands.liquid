@@ -7,10 +7,30 @@
     <div class="shopco-page-width">
       <ul class="shopco-brands__list" role="list">
         {%- for block in section.blocks -%}
-          <li class="shopco-brands__item" {{ block.shopify_attributes }}>
-            <a class="shopco-link" href="{{ block.settings.link | default: '#' }}">
+          {%- capture brand_mark -%}
+            {%- if block.settings.logo != blank -%}
+              {%- assign logo = block.settings.logo -%}
+              <img
+                src="{{ logo | image_url: width: 320 }}"
+                srcset="{{ logo | image_url: width: 160 }} 160w, {{ logo | image_url: width: 320 }} 320w"
+                sizes="160px"
+                alt="{{ logo.alt | default: block.settings.brand_name | escape }}"
+                width="{{ logo.width }}"
+                height="{{ logo.height }}"
+                loading="lazy"
+                class="shopco-brands__image"
+              >
+            {%- else -%}
               <span class="shopco-brands__logo">{{ block.settings.brand_name | escape }}</span>
-            </a>
+            {%- endif -%}
+          {%- endcapture -%}
+
+          <li class="shopco-brands__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a class="shopco-link" href="{{ block.settings.link }}">{{ brand_mark }}</a>
+            {%- else -%}
+              {{ brand_mark }}
+            {%- endif -%}
           </li>
         {%- endfor -%}
       </ul>
@@ -32,7 +52,13 @@
           "type": "text",
           "id": "brand_name",
           "default": "VERSACE",
-          "label": "Brand name"
+          "label": "Brand name",
+          "info": "Used as the wordmark when no logo image is uploaded, and as the logo's alt text."
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
         },
         {
           "type": "url",

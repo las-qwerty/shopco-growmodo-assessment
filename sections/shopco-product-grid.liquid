@@ -6,87 +6,133 @@
   assign collection = section.settings.collection
   assign products_to_show = section.settings.products_to_show | default: 4
   assign show_secondary_image = section.settings.show_secondary_image
+
+  assign has_products = false
+  if collection != blank and collection.products.size > 0
+    assign has_products = true
+  endif
 -%}
 
-<section class="shopco-section" id="section-{{ section.id }}">
-  <div class="shopco-page-width">
-    <div class="shopco-product-grid__header">
-      <h2 class="shopco-product-grid__title">{{ section.settings.title | escape }}</h2>
-      {%- if section.settings.show_view_all and collection != blank -%}
-        <a href="{{ collection.url }}" class="shopco-product-grid__view-all shopco-link">
-          {{ 'View All' | escape }} &rarr;
-        </a>
-      {%- endif -%}
-    </div>
+<div class="shopco-page-width" id="section-{{ section.id }}">
+  <h2 class="shopco-product-grid__title">{{ section.settings.title | escape }}</h2>
 
-    <div class="shopco-product-grid__grid" role="list">
-      {%- if collection != blank and collection.products.size > 0 -%}
-        {%- for product in collection.products limit: products_to_show -%}
-          {%- assign variant = product.selected_or_first_available_variant -%}
-          <a href="{{ product.url }}" class="shopco-product-card" role="listitem" aria-label="{{ product.title | escape }}">
+  {%- if has_products -%}
+    <ul class="shopco-product-grid__grid" role="list">
+      {%- for product in collection.products limit: products_to_show -%}
+        {%- liquid
+          assign image = product.featured_image
+          assign image_2 = product.images[1]
+          assign compare_at = product.compare_at_price
+          assign on_sale = false
+          if compare_at > product.price
+            assign on_sale = true
+            assign discount = compare_at | minus: product.price | times: 100.0 | divided_by: compare_at | round
+          endif
+        -%}
+        <li>
+          <a href="{{ product.url }}" class="shopco-product-card">
             <div class="shopco-product-card__media">
-              {%- if product.featured_media -%}
-                {%- assign image = product.featured_media -%}
+              {%- if image != blank -%}
                 <img
                   srcset="
                     {%- if image.width >= 330 -%}{{ image | image_url: width: 330 }} 330w,{%- endif -%}
                     {%- if image.width >= 660 -%}{{ image | image_url: width: 660 }} 660w,{%- endif -%}
                     {%- if image.width >= 990 -%}{{ image | image_url: width: 990 }} 990w,{%- endif -%}
-                    {{ image | image_url }} {{ image.width }}w
+                    {{ image | image_url: width: image.width }} {{ image.width }}w
                   "
                   src="{{ image | image_url: width: 660 }}"
-                  sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 100vw"
+                  sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 62vw"
                   alt="{{ image.alt | escape }}"
                   width="{{ image.width }}"
                   height="{{ image.height }}"
                   loading="lazy"
                   class="shopco-product-card__primary"
                 >
-                {%- if product.media[1] != blank and show_secondary_image -%}
-                  {%- assign image_2 = product.media[1] -%}
+                {%- if show_secondary_image and image_2 != blank -%}
                   <img
                     srcset="
                       {%- if image_2.width >= 330 -%}{{ image_2 | image_url: width: 330 }} 330w,{%- endif -%}
                       {%- if image_2.width >= 660 -%}{{ image_2 | image_url: width: 660 }} 660w,{%- endif -%}
                       {%- if image_2.width >= 990 -%}{{ image_2 | image_url: width: 990 }} 990w,{%- endif -%}
-                      {{ image_2 | image_url }} {{ image_2.width }}w
+                      {{ image_2 | image_url: width: image_2.width }} {{ image_2.width }}w
                     "
                     src="{{ image_2 | image_url: width: 660 }}"
-                    sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 100vw"
-                    alt="{{ image_2.alt | escape }}"
+                    sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 62vw"
+                    alt=""
                     width="{{ image_2.width }}"
                     height="{{ image_2.height }}"
                     loading="lazy"
+                    aria-hidden="true"
                     class="shopco-product-card__secondary"
                   >
                 {%- endif -%}
               {%- else -%}
-                {{ 'product-1' | placeholder_svg_tag: 'shopco-product-card__media' }}
+                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
               {%- endif -%}
             </div>
+
             <h3 class="shopco-product-card__title">{{ product.title | escape }}</h3>
-            <div class="shopco-product-card__price">
-              {{ variant.price | money }}
-              {%- if variant.compare_at_price > variant.price -%}
-                <span class="shopco-product-card__price--compare">{{ variant.compare_at_price | money }}</span>
+
+            {%- if section.settings.show_rating and product.metafields.reviews.rating.value != blank -%}
+              {%- assign rating = product.metafields.reviews.rating.value -%}
+              {% render 'shopco-rating',
+                rating: rating.rating,
+                rating_max: rating.scale_max,
+                show_value: true
+              %}
+            {%- endif -%}
+
+            <p class="shopco-product-card__price">
+              <span>{{ product.price | money }}</span>
+              {%- if on_sale -%}
+                <s class="shopco-product-card__price--compare">{{ compare_at | money }}</s>
+                <span class="shopco-product-card__badge">-{{ discount }}%</span>
               {%- endif -%}
-            </div>
+              {%- unless product.available -%}
+                <span class="shopco-product-card__sold-out">{{ 'products.product.sold_out' | t }}</span>
+              {%- endunless -%}
+            </p>
           </a>
-        {%- endfor -%}
-      {%- else -%}
-        {%- for i in (1..products_to_show) -%}
-          <a href="{{ routes.root_url }}" class="shopco-product-card" role="listitem">
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- elsif request.design_mode -%}
+    {%- comment -%}
+      Placeholders are editor-only on purpose: shipping fake products and prices
+      to real shoppers when a collection is unset or deleted is worse than an
+      empty section.
+    {%- endcomment -%}
+    <ul class="shopco-product-grid__grid" role="list">
+      {%- for i in (1..products_to_show) -%}
+        <li>
+          <div class="shopco-product-card">
             <div class="shopco-product-card__media">
-              {{ 'product-1' | placeholder_svg_tag: 'shopco-product-card__media' }}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
             </div>
-            <h3 class="shopco-product-card__title">Product {{ i }}</h3>
-            <div class="shopco-product-card__price">$120.00</div>
-          </a>
-        {%- endfor -%}
-      {%- endif -%}
+            <h3 class="shopco-product-card__title">{{ 'onboarding.product_title' | t }}</h3>
+            <p class="shopco-product-card__price">{{ 1999 | money }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- if section.settings.show_view_all and collection != blank -%}
+    <div class="shopco-product-grid__footer">
+      <a
+        href="{{ collection.url }}"
+        class="shopco-button shopco-button--secondary shopco-product-grid__view-all"
+        aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: collection.title | escape }}"
+      >
+        {{ 'sections.featured_collection.view_all' | t }}
+      </a>
     </div>
-  </div>
-</section>
+  {%- endif -%}
+</div>
+
+{%- if section.settings.show_divider -%}
+  <hr class="shopco-divider">
+{%- endif -%}
 
 {% schema %}
 {
@@ -122,9 +168,22 @@
     },
     {
       "type": "checkbox",
+      "id": "show_rating",
+      "default": true,
+      "label": "Show product rating",
+      "info": "Requires a product reviews app that writes the reviews.rating metafield."
+    },
+    {
+      "type": "checkbox",
       "id": "show_view_all",
       "default": true,
-      "label": "Show 'View all' link"
+      "label": "Show 'View all' button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "default": true,
+      "label": "Show divider below section"
     }
   ],
   "presets": [

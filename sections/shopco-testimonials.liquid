@@ -2,36 +2,71 @@
   Shopco - Happy customers testimonials
 {% endcomment %}
 
-<section class="shopco-section" id="section-{{ section.id }}">
-  <div class="shopco-page-width">
-    <h2 class="shopco-section-title">{{ section.settings.title | escape }}</h2>
+<script src="{{ 'shopco-carousel.js' | asset_url }}" defer="defer"></script>
+
+<div class="shopco-page-width" id="section-{{ section.id }}">
+  <shopco-carousel>
+    <div class="shopco-testimonials__header">
+      <h2 class="shopco-section-title">{{ section.settings.title | escape }}</h2>
+
+      {%- if section.blocks.size > 1 -%}
+        <div class="shopco-testimonials__arrows">
+          <button
+            type="button"
+            class="shopco-testimonials__arrow"
+            data-shopco-carousel-previous
+            aria-controls="ShopcoTestimonials-{{ section.id }}"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+              <path d="M15 5 8 12l7 7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="shopco-testimonials__arrow"
+            data-shopco-carousel-next
+            aria-controls="ShopcoTestimonials-{{ section.id }}"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+              <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
 
     {%- if section.blocks.size > 0 -%}
-      <div class="shopco-testimonials__grid" role="list">
+      <ul
+        class="shopco-testimonials__track"
+        id="ShopcoTestimonials-{{ section.id }}"
+        role="list"
+        data-shopco-carousel-track
+        tabindex="0"
+        aria-label="{{ section.settings.title | escape }}"
+      >
         {%- for block in section.blocks -%}
-          <article class="shopco-testimonial" role="listitem" {{ block.shopify_attributes }}>
-            <div class="shopco-testimonial__rating" aria-label="{{ block.settings.rating }} out of 5 stars">
-              {%- for i in (1..5) -%}
-                {%- if i <= block.settings.rating -%}
-                  <span aria-hidden="true">&#9733;</span>
-                {%- else -%}
-                  <span aria-hidden="true" style="opacity: 0.3;">&#9733;</span>
+          <li {{ block.shopify_attributes }}>
+            <article class="shopco-testimonial">
+              <div class="shopco-testimonial__rating">
+                {% render 'shopco-rating', rating: block.settings.rating %}
+              </div>
+              <h3 class="shopco-testimonial__name">
+                {{ block.settings.name | escape }}
+                {%- if block.settings.verified -%}
+                  <span class="shopco-testimonial__badge" aria-hidden="true">&#10003;</span>
+                  <span class="visually-hidden-shopco">{{ 'shopco.testimonials.verified' | t }}</span>
                 {%- endif -%}
-              {%- endfor -%}
-            </div>
-            <h3 class="shopco-testimonial__name">
-              {{ block.settings.name | escape }}
-              {%- if block.settings.verified -%}
-                <span class="shopco-testimonial__badge" aria-label="Verified customer">&#10003;</span>
-              {%- endif -%}
-            </h3>
-            <p class="shopco-testimonial__text">{{ block.settings.quote | escape }}</p>
-          </article>
+              </h3>
+              <p class="shopco-testimonial__text">{{ block.settings.quote | escape }}</p>
+            </article>
+          </li>
         {%- endfor -%}
-      </div>
+      </ul>
     {%- endif -%}
-  </div>
-</section>
+  </shopco-carousel>
+</div>
 
 {% schema %}
 {

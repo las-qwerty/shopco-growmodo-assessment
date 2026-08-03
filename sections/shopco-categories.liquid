@@ -2,28 +2,35 @@
   Shopco - Browse by dress style / categories
 {% endcomment %}
 
-<section class="shopco-section" id="section-{{ section.id }}">
-  <div class="shopco-page-width">
+<div class="shopco-page-width" id="section-{{ section.id }}">
+  <div class="shopco-categories">
     <h2 class="shopco-section-title">{{ section.settings.title | escape }}</h2>
 
     {%- if section.blocks.size > 0 -%}
-      <div class="shopco-categories__grid" role="list">
+      <ul class="shopco-categories__grid" role="list">
         {%- for block in section.blocks -%}
-          {%- assign collection_obj = block.settings.collection -%}
-          {%- assign title = block.settings.title | default: collection_obj.title | default: 'Category' -%}
-          {%- assign link = collection_obj.url | default: routes.root_url -%}
-          {%- assign image = block.settings.image | default: collection_obj.image -%}
+          {%- liquid
+            assign category_collection = block.settings.collection
+            assign card_title = block.settings.title | default: category_collection.title
+            assign image = block.settings.image | default: category_collection.image
 
-          <a href="{{ link }}" class="shopco-category-card" role="listitem">
+            assign width_class = 'shopco-categories__item--narrow'
+            if block.settings.card_width == 'wide'
+              assign width_class = 'shopco-categories__item--wide'
+            endif
+          -%}
+
+          {%- capture card_inner -%}
             {%- if image != blank -%}
               <img
                 srcset="
                   {%- if image.width >= 375 -%}{{ image | image_url: width: 375 }} 375w,{%- endif -%}
                   {%- if image.width >= 750 -%}{{ image | image_url: width: 750 }} 750w,{%- endif -%}
-                  {{ image | image_url }} {{ image.width }}w
+                  {%- if image.width >= 1100 -%}{{ image | image_url: width: 1100 }} 1100w,{%- endif -%}
+                  {{ image | image_url: width: image.width }} {{ image.width }}w
                 "
                 src="{{ image | image_url: width: 750 }}"
-                sizes="(min-width: 990px) 25vw, (min-width: 590px) 50vw, 100vw"
+                sizes="(min-width: 750px) 33vw, 100vw"
                 alt="{{ image.alt | escape }}"
                 width="{{ image.width }}"
                 height="{{ image.height }}"
@@ -33,13 +40,31 @@
             {%- else -%}
               {{ 'collection-1' | placeholder_svg_tag: 'shopco-category-card__image' }}
             {%- endif -%}
-            <span class="shopco-category-card__title">{{ title | escape }}</span>
-          </a>
+            {%- if card_title != blank -%}
+              <span class="shopco-category-card__title">{{ card_title | escape }}</span>
+            {%- endif -%}
+          {%- endcapture -%}
+
+          <li class="shopco-categories__item {{ width_class }}" {{ block.shopify_attributes }}>
+            {%- if category_collection != blank -%}
+              <a href="{{ category_collection.url }}" class="shopco-category-card">
+                {{ card_inner }}
+              </a>
+            {%- else -%}
+              {%- comment -%}
+                No collection selected, so there is nothing meaningful to link to.
+                Rendering a div avoids an anchor that goes nowhere.
+              {%- endcomment -%}
+              <div class="shopco-category-card">
+                {{ card_inner }}
+              </div>
+            {%- endif -%}
+          </li>
         {%- endfor -%}
-      </div>
+      </ul>
     {%- endif -%}
   </div>
-</section>
+</div>
 
 {% schema %}
 {
@@ -72,7 +97,25 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image",
+          "info": "Falls back to the selected collection's image."
+        },
+        {
+          "type": "select",
+          "id": "card_width",
+          "label": "Card width",
+          "default": "narrow",
+          "info": "The reference design alternates narrow and wide cards.",
+          "options": [
+            {
+              "value": "narrow",
+              "label": "Narrow (one third)"
+            },
+            {
+              "value": "wide",
+              "label": "Wide (two thirds)"
+            }
+          ]
         }
       ]
     }
@@ -86,25 +129,29 @@
         "category-1": {
           "type": "category",
           "settings": {
-            "title": "Casual"
+            "title": "Casual",
+            "card_width": "narrow"
           }
         },
         "category-2": {
           "type": "category",
           "settings": {
-            "title": "Formal"
+            "title": "Formal",
+            "card_width": "wide"
           }
         },
         "category-3": {
           "type": "category",
           "settings": {
-            "title": "Party"
+            "title": "Party",
+            "card_width": "wide"
           }
         },
         "category-4": {
           "type": "category",
           "settings": {
-            "title": "Gym"
+            "title": "Gym",
+            "card_width": "narrow"
           }
         }
       }

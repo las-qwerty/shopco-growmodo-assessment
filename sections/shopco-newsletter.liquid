@@ -10,6 +10,13 @@
   assign input_id = 'ShopcoNewsletterEmail--' | append: section.id
 -%}
 
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --shopco-section-padding-top: {{ section.settings.padding_top }}px;
+    --shopco-section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
 <div class="shopco-page-width" id="section-{{ section.id }}">
   <div class="shopco-newsletter{% if section.settings.overlap_footer %} shopco-newsletter--overlap{% endif %}">
     <div class="shopco-newsletter__content">
@@ -99,7 +106,7 @@
     {
       "type": "text",
       "id": "button_label",
-      "default": "Subscribe",
+      "default": "Subscribe to Newsletter",
       "label": "Button label"
     },
     {
@@ -108,6 +115,30 @@
       "default": false,
       "label": "Overlap the footer",
       "info": "Matches the reference design. Enable once the footer has enough top spacing to sit behind the card."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64,
+      "label": "Top padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64,
+      "label": "Bottom padding"
     }
   ],
   "presets": [

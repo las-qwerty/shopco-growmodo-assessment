@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -7,13 +16,13 @@
         "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
         "button_label": "Shop Now",
         "button_link": "/collections/all",
+        "show_sparkles": true,
         "stat_1_value": "200+",
         "stat_1_label": "International Brands",
         "stat_2_value": "2,000+",
         "stat_2_label": "High-Quality Products",
         "stat_3_value": "30,000+",
-        "stat_3_label": "Happy Customers",
-        "show_sparkles": true
+        "stat_3_label": "Happy Customers"
       }
     },
     "brands": {
@@ -55,7 +64,14 @@
           }
         }
       },
-      "block_order": ["brand-1", "brand-2", "brand-3", "brand-4", "brand-5"]
+      "block_order": [
+        "brand-1",
+        "brand-2",
+        "brand-3",
+        "brand-4",
+        "brand-5"
+      ],
+      "settings": {}
     },
     "new_arrivals": {
       "type": "shopco-product-grid",
@@ -83,9 +99,6 @@
     },
     "categories": {
       "type": "shopco-categories",
-      "settings": {
-        "title": "BROWSE BY DRESS STYLE"
-      },
       "blocks": {
         "category-1": {
           "type": "category",
@@ -116,13 +129,18 @@
           }
         }
       },
-      "block_order": ["category-1", "category-2", "category-3", "category-4"]
+      "block_order": [
+        "category-1",
+        "category-2",
+        "category-3",
+        "category-4"
+      ],
+      "settings": {
+        "title": "BROWSE BY DRESS STYLE"
+      }
     },
     "testimonials": {
       "type": "shopco-testimonials",
-      "settings": {
-        "title": "OUR HAPPY CUSTOMERS"
-      },
       "blocks": {
         "testimonial-1": {
           "type": "testimonial",
@@ -152,14 +170,21 @@
           }
         }
       },
-      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"]
+      "block_order": [
+        "testimonial-1",
+        "testimonial-2",
+        "testimonial-3"
+      ],
+      "settings": {
+        "title": "OUR HAPPY CUSTOMERS"
+      }
     },
     "newsletter": {
       "type": "shopco-newsletter",
       "settings": {
         "title": "STAY UPTO DATE ABOUT OUR LATEST OFFERS",
         "text": "We have clothes that suits your style and which you'll be proud to wear. From women to men.",
-        "button_label": "Subscribe",
+        "button_label": "Subscribe to Newsletter",
         "overlap_footer": false
       }
     }

@@ -1,0 +1,159 @@
+{% comment %}
+  Shopco - Site footer
+{% endcomment %}
+
+{%- liquid
+  assign footer_menu = linklists[section.settings.menu]
+  assign has_menu = false
+  if footer_menu != blank and footer_menu.links.size > 0
+    assign has_menu = true
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --footer-background: {{ section.settings.background_color }};
+    --footer-text: {{ section.settings.text_color }};
+  }
+
+  .shopco-footer {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .shopco-footer {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<footer class="shopco-footer" {{ section.shopify_attributes }}>
+  <div class="shopco-page-width">
+    <div class="shopco-footer__main">
+      {%- if section.settings.logo_text != blank -%}
+        <a href="{{ routes.root_url }}" class="shopco-footer__logo">
+          {{ section.settings.logo_text | escape }}
+        </a>
+      {%- endif -%}
+
+      {%- if has_menu -%}
+        <nav class="shopco-footer__nav" aria-label="{{ 'shopco.footer.nav_aria' | t }}">
+          <ul class="shopco-footer__nav-list" role="list">
+            {%- for link in footer_menu.links -%}
+              <li>
+                <a href="{{ link.url }}" class="shopco-footer__nav-link">
+                  {{ link.title | escape }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      {%- if section.settings.show_social -%}
+        <div class="shopco-footer__social">
+          {% render 'social-icons', class: 'shopco-footer__social-list' %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="shopco-footer__bottom">
+      {%- if section.settings.copyright != blank -%}
+        <p class="shopco-footer__copyright">{{ section.settings.copyright | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.show_payment and shop.enabled_payment_types != empty -%}
+        <ul class="shopco-footer__payments" role="list" aria-label="{{ 'shopco.footer.payment' | t }}">
+          {%- for type in shop.enabled_payment_types -%}
+            <li class="shopco-footer__payment">
+              {{ type | payment_type_svg_tag: class: 'shopco-footer__payment-icon' }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Shopco Footer",
+  "tag": "section",
+  "class": "shopco-footer-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "default": "SHOP.CO",
+      "label": "Logo text"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "default": true,
+      "label": "Show social icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment",
+      "default": true,
+      "label": "Show payment icons"
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "default": "shop.co © 2024. All rights reserved.",
+      "label": "Copyright text"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "default": "#000000",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "default": "#ffffff",
+      "label": "Text color"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40,
+      "label": "Top padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40,
+      "label": "Bottom padding"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Footer",
+      "category": "Shopco"
+    }
+  ]
+}
+{% endschema %}

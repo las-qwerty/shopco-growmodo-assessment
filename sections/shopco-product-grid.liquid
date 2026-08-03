@@ -13,6 +13,13 @@
   endif
 -%}
 
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --shopco-section-padding-top: {{ section.settings.padding_top }}px;
+    --shopco-section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
 <div class="shopco-page-width" id="section-{{ section.id }}">
   <h2 class="shopco-product-grid__title">{{ section.settings.title | escape }}</h2>
 
@@ -184,6 +191,30 @@
       "id": "show_divider",
       "default": true,
       "label": "Show divider below section"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64,
+      "label": "Top padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64,
+      "label": "Bottom padding"
     }
   ],
   "presets": [

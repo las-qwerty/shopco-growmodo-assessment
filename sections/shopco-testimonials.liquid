@@ -4,6 +4,13 @@
 
 <script src="{{ 'shopco-carousel.js' | asset_url }}" defer="defer"></script>
 
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --shopco-section-padding-top: {{ section.settings.padding_top }}px;
+    --shopco-section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
 <div class="shopco-page-width" id="section-{{ section.id }}">
   <shopco-carousel>
     <div class="shopco-testimonials__header">
@@ -79,6 +86,30 @@
       "id": "title",
       "default": "OUR HAPPY CUSTOMERS",
       "label": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64,
+      "label": "Top padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64,
+      "label": "Bottom padding"
     }
   ],
   "blocks": [

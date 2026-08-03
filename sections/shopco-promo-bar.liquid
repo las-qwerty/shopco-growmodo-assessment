@@ -1,0 +1,124 @@
+{% comment %}
+  Shopco - Top promotional bar
+{% endcomment %}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .shopco-promo-bar {
+    --promo-bg: {{ section.settings.background_color }};
+    --promo-text: {{ section.settings.text_color }};
+    --promo-link: {{ section.settings.link_color }};
+  }
+{%- endstyle -%}
+
+<div
+  class="shopco-promo-bar"
+  data-shopco-promo-bar
+  {{ section.shopify_attributes }}
+  data-section-id="{{ section.id }}"
+  {% if section.settings.enable_close %}
+    data-shopco-promo-closable
+  {% endif %}
+>
+  <div class="shopco-page-width shopco-promo-bar__inner">
+    <p class="shopco-promo-bar__text">
+      {%- if section.settings.link != blank -%}
+        <a href="{{ section.settings.link }}" class="shopco-promo-bar__link">
+          {{ section.settings.text | escape }}
+          <span class="shopco-promo-bar__cta">{{ section.settings.link_text | escape }}</span>
+        </a>
+      {%- else -%}
+        {{ section.settings.text | escape }}
+      {%- endif -%}
+    </p>
+
+    {%- if section.settings.enable_close -%}
+      <button
+        type="button"
+        class="shopco-promo-bar__close"
+        aria-label="{{ 'accessibility.close' | t }}"
+        data-shopco-promo-close
+      >
+        <span class="svg-wrapper">{{ 'icon-close.svg' | inline_asset_content }}</span>
+      </button>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- if section.settings.enable_close -%}
+  <script>
+    (function () {
+      var bar = document.querySelector('[data-shopco-promo-bar]');
+      var close = document.querySelector('[data-shopco-promo-close]');
+      if (!bar || !close) return;
+
+      var key = 'shopco-promo-' + bar.dataset.sectionId + '-closed';
+      if (window.localStorage && localStorage.getItem(key)) {
+        bar.hidden = true;
+      }
+
+      close.addEventListener('click', function () {
+        bar.hidden = true;
+        if (window.localStorage) {
+          localStorage.setItem(key, 'true');
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Shopco Promo Bar",
+  "tag": "section",
+  "class": "shopco-promo-bar-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "default": "Sign up and get 20% off to your first order.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "default": "Sign Up Now",
+      "label": "Link text"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_close",
+      "default": true,
+      "label": "Allow visitors to close the bar"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "default": "#000000",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "default": "#ffffff",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "default": "#ffffff",
+      "label": "Link color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Promo Bar",
+      "category": "Shopco"
+    }
+  ]
+}
+{% endschema %}

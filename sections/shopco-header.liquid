@@ -1,0 +1,304 @@
+{% comment %}
+  Shopco - Site header
+{% endcomment %}
+
+{%- liquid
+  assign nav = linklists[section.settings.menu]
+  assign has_nav = false
+  if nav != blank and nav.links.size > 0
+    assign has_nav = true
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --header-background: {{ section.settings.background_color }};
+    --header-text: {{ section.settings.text_color }};
+  }
+
+  .shopco-header__inner {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .shopco-header__inner {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<header
+  class="shopco-header{% if section.settings.sticky_header_type != 'none' %} shopco-header--sticky{% endif %}{% if section.settings.sticky_header_type == 'always' %} shopco-header--sticky-always{% endif %}"
+  data-shopco-header
+  {{ section.shopify_attributes }}
+>
+  <div class="shopco-page-width shopco-header__inner">
+    <button
+      type="button"
+      class="shopco-header__icon shopco-header__icon--menu"
+      aria-expanded="false"
+      aria-controls="ShopcoMobileNav-{{ section.id }}"
+      aria-label="{{ 'shopco.header.menu' | t }}"
+      data-shopco-menu-toggle
+    >
+      <span class="svg-wrapper">{{ 'icon-hamburger.svg' | inline_asset_content }}</span>
+    </button>
+
+    <a href="{{ section.settings.logo_link | default: routes.root_url }}" class="shopco-header__logo">
+      <span class="visually-hidden-shopco">{{ 'shopco.header.home' | t }}</span>
+      {{ section.settings.logo_text | escape }}
+    </a>
+
+    {%- if has_nav -%}
+      <nav class="shopco-header__nav" aria-label="{{ 'shopco.header.navigation' | t }}">
+        <ul class="shopco-header__nav-list" role="list">
+          {%- for link in nav.links -%}
+            <li class="shopco-header__nav-item{% if link.links != blank %} shopco-header__nav-item--parent{% endif %}">
+              {%- if link.links == blank -%}
+                <a href="{{ link.url }}" class="shopco-header__nav-link{% if link.active %} shopco-header__nav-link--active{% endif %}">
+                  {{ link.title | escape }}
+                </a>
+              {%- else -%}
+                <details class="shopco-header__dropdown">
+                  <summary class="shopco-header__nav-link shopco-header__nav-link--summary">
+                    {{ link.title | escape }}
+                    <span class="svg-wrapper shopco-header__caret" aria-hidden="true">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+                  </summary>
+                  <ul class="shopco-header__dropdown-list" role="list">
+                    {%- for child in link.links -%}
+                      <li>
+                        <a href="{{ child.url }}" class="shopco-header__dropdown-link{% if child.active %} shopco-header__dropdown-link--active{% endif %}">
+                          {{ child.title | escape }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </details>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    <div class="shopco-header__tools">
+      {%- if section.settings.enable_search -%}
+        <form
+          action="{{ routes.search_url }}"
+          method="get"
+          role="search"
+          class="shopco-header__search"
+        >
+          <label for="ShopcoSearchInput-{{ section.id }}" class="visually-hidden-shopco">
+            {{ 'general.search.search' | t }}
+          </label>
+          <span class="shopco-header__search-icon" aria-hidden="true">
+            <span class="svg-wrapper">{{ 'icon-search.svg' | inline_asset_content }}</span>
+          </span>
+          <input
+            id="ShopcoSearchInput-{{ section.id }}"
+            type="search"
+            name="q"
+            class="shopco-header__search-input"
+            placeholder="{{ 'shopco.header.search_placeholder' | t }}"
+            autocomplete="off"
+          >
+        </form>
+
+        <a
+          href="{{ routes.search_url }}"
+          class="shopco-header__icon shopco-header__icon--search-mobile"
+          aria-label="{{ 'general.search.search' | t }}"
+        >
+          <span class="svg-wrapper">{{ 'icon-search.svg' | inline_asset_content }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.enable_account -%}
+        <a
+          href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+          class="shopco-header__icon"
+          aria-label="{{ 'customer.account.title' | t }}"
+        >
+          <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.enable_cart -%}
+        <a
+          href="{{ routes.cart_url }}"
+          class="shopco-header__icon shopco-header__icon--cart"
+          aria-label="{{ 'shopco.header.cart' | t }}"
+        >
+          <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+          {%- if cart.item_count > 0 -%}
+            <span class="shopco-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if has_nav -%}
+    <div
+      class="shopco-header__mobile-nav"
+      id="ShopcoMobileNav-{{ section.id }}"
+      hidden
+    >
+      <div class="shopco-page-width shopco-header__mobile-nav-inner">
+        <ul class="shopco-header__mobile-list" role="list">
+          {%- for link in nav.links -%}
+            <li class="shopco-header__mobile-item">
+              {%- if link.links == blank -%}
+                <a href="{{ link.url }}" class="shopco-header__mobile-link{% if link.active %} shopco-header__mobile-link--active{% endif %}">
+                  {{ link.title | escape }}
+                </a>
+              {%- else -%}
+                <details class="shopco-header__mobile-details">
+                  <summary class="shopco-header__mobile-link shopco-header__mobile-link--summary">
+                    {{ link.title | escape }}
+                    <span class="svg-wrapper shopco-header__caret" aria-hidden="true">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+                  </summary>
+                  <ul class="shopco-header__mobile-sublist" role="list">
+                    {%- for child in link.links -%}
+                      <li>
+                        <a href="{{ child.url }}" class="shopco-header__mobile-sublink{% if child.active %} shopco-header__mobile-sublink--active{% endif %}">
+                          {{ child.title | escape }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </details>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <script>
+    (function () {
+      var toggle = document.querySelector('[data-shopco-menu-toggle]');
+      var mobileNav = toggle && document.getElementById(toggle.getAttribute('aria-controls'));
+      if (!toggle || !mobileNav) return;
+
+      toggle.addEventListener('click', function () {
+        var expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', !expanded);
+        mobileNav.hidden = expanded;
+      });
+    })();
+  </script>
+</header>
+
+{% schema %}
+{
+  "name": "Shopco Header",
+  "tag": "section",
+  "class": "shopco-header-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "default": "SHOP.CO",
+      "label": "Logo text"
+    },
+    {
+      "type": "url",
+      "id": "logo_link",
+      "label": "Logo link",
+      "info": "Defaults to the homepage."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu",
+      "info": "Top-level links with nested links become dropdowns."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_search",
+      "default": true,
+      "label": "Show search"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_account",
+      "default": true,
+      "label": "Show account icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cart",
+      "default": true,
+      "label": "Show cart icon"
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_type",
+      "label": "Sticky header",
+      "default": "on-scroll-up",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "on-scroll-up",
+          "label": "Sticky on scroll up"
+        },
+        {
+          "value": "always",
+          "label": "Always sticky"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "default": "#ffffff",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "default": "#000000",
+      "label": "Text color"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20,
+      "label": "Top padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20,
+      "label": "Bottom padding"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopco Header",
+      "category": "Shopco"
+    }
+  ]
+}
+{% endschema %}

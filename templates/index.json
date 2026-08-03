@@ -41,11 +41,48 @@
             "text_align": "left",
             "text_color": "#000000"
           }
+        },
+        "text_PcUeJR": {
+          "type": "text",
+          "settings": {
+            "text": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
+            "font_family": "body",
+            "font_size_desktop": 1.6,
+            "font_size_mobile": 1.6,
+            "font_weight": "400",
+            "line_height": 1.5,
+            "letter_spacing": 0,
+            "text_transform": "none",
+            "text_align": "left",
+            "text_color": "#000000",
+            "max_width": 540
+          }
+        },
+        "button_bPyFRT": {
+          "type": "button",
+          "settings": {
+            "label": "Shop Now",
+            "link": "/",
+            "style": "primary",
+            "background_color": "#000000",
+            "text_color": "#ffffff",
+            "border_color": "#000000",
+            "border_radius": 62,
+            "font_size_desktop": 1.6,
+            "font_size_mobile": 1.6,
+            "font_weight": "700",
+            "padding_x": 54,
+            "padding_y": 16,
+            "width": "auto",
+            "alignment": "left"
+          }
         }
       },
       "block_order": [
         "group_start_UJrVqQ",
-        "heading_kJHW3U"
+        "heading_kJHW3U",
+        "text_PcUeJR",
+        "button_bPyFRT"
       ],
       "settings": {
         "heading": "FIND CLOTHES\nTHAT MATCHES\nYOUR STYLE",
